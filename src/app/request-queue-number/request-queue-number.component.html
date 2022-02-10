@@ -1,0 +1,15 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="mx-auto col-6 ticket" #containerBarcode>
+            <p class="title">ALMEGATEX</p>
+            <p>Nomor Antrian Anda</p>
+
+            <p class="invoice">{{invoice}}</p>
+
+            <p>Mohon Menunggu</p>
+            <ngx-barcode [bc-value]="id_barcode" class="text-center" [bc-display-value]="false"></ngx-barcode>
+            <div class="date">{{date}}</div>
+            <p class="remark">Budayakan antri untuk kenyamanan bersama <br> Terima Kasih atas kunjungan anda</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="container my-3 card">
+    <div class="row">       
+        <div class="col-12 d-flex mt-3">
+            <button class="btn btn-success btn-sm" (click)="changePage('')"><i class="fa fa-arrow-left mr-2"></i> Back</button>
+            <h2 class="text-cente p-0 mx-auto">Customer Biodata</h2>
+        </div>
+        <div class="col-md-12 card-body">
+            <form novalidate [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-md-6">        
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="cust_name" placeholder="Customer Name"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="pic" placeholder="Pic"/>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" formControlName="region" placeholder="Region" (change)="onChangeRegion($event)">
+                                <option value="" disabled>Pilih Region</option>
+                                <option *ngFor="let data of region_data" [value]="data.id">{{data.name}}</option>
+                            </select>
+                        </div>  
+                        <div class="form-group">
+                            <select class="form-control" formControlName="province" placeholder="Province" (change)="onChangeProv($event)">
+                                <option value="" disabled>Pilih Province</option>
+                                <option *ngFor="let data of states_data" [value]="data.id">{{data.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" formControlName="city" placeholder="City">
+                                <option value="" disabled>Pilih City</option>
+                                <option *ngFor="let data of cities_data" [value]="data.id">{{data.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="remark" placeholder="Remark"/>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" formControlName="address" placeholder="Address"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" formControlName="address_nd" placeholder="Address 2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" formControlName="contact" placeholder="Contact Number"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" formControlName="kuota" placeholder="Kuota"/>
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
