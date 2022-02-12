@@ -42,34 +42,39 @@ export class InputVisitorDetailsComponent implements OnInit {
     this.getRegion();
     this.sub = this.route.params.subscribe(params => {
       this.ids = params['id'];
-      this.svc.detailVisitor(params['id']).subscribe((resp) => {
-        const data = resp.data
-        this.objForm.cust_name = data.customer_name
-        this.objForm.pic = data.pic
-        this.objForm.remark = data.remark
-        this.objForm.address = data.address_primary
-        this.objForm.address_nd = data.address_secondary
-        this.objForm.contact = data.contact_no
-        this.objForm.kuota = data.kuota
-
-
-        this.city_id = data.city._id
-        this.province_id = data.province._id 
-        this.svc.getProvinceId(this.province_id).subscribe((resp) => {
-          this.states_data = resp.data.province
-          this.objForm.province = resp.data.province
-          this.profileForm = this.fb.group(this.objForm); 
-        })
-        this.svc.getCitiesId(this.city_id).subscribe((resp) => {
-          this.cities_data = resp.data.cities
-          this.objForm.city = resp.data.cities
-          this.profileForm = this.fb.group(this.objForm); 
-        })   
-        this.profileForm = this.fb.group(this.objForm); 
-       
-      })
+      if(typeof this.ids !== 'undefined'){
+          this.detailVisitor(this.ids)   
+      }
    });
 
+  }
+
+  detailVisitor(id){
+    this.svc.detailVisitor(id).subscribe((resp) => {
+      const data = resp.data
+      this.objForm.cust_name = data.customer_name
+      this.objForm.pic = data.pic
+      this.objForm.remark = data.remark
+      this.objForm.address = data.address_primary
+      this.objForm.address_nd = data.address_secondary
+      this.objForm.contact = data.contact_no
+      this.objForm.kuota = data.kuota
+      this.objForm.region = data.region.id
+      this.objForm.province = data.province.id
+      this.objForm.city = data.city.id
+
+      this.svc.getProvince(data.region.id).subscribe((resp) => {
+        this.states_data = resp.data.states
+        this.svc.getCities(data.province.id).subscribe((resp) => {
+          this.cities_data = resp.data.cities
+          setTimeout(() => {
+            this.profileForm = this.fb.group(this.objForm);
+          });
+        })   
+      })
+     
+     
+    })
   }
 
   ngAfterViewInit(){
@@ -95,7 +100,6 @@ export class InputVisitorDetailsComponent implements OnInit {
         id: this.ids,
         ...this.profileForm.value
       }
-      
       svc.updateVisitor(obj).subscribe((resp) => {
         alert(resp.message)
         this.router.navigate(['/']);

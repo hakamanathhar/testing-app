@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {jsPDF} from 'jspdf';
 import html2canvas from 'html2canvas';
 import { GlobalService } from '../global.service';
-import { queue } from 'jquery';
 
 
 @Component({

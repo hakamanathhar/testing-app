@@ -66,10 +66,10 @@ export class VisitorListComponent implements OnInit {
 
   }
 
-  @ViewChild(MatPaginator)
+  @ViewChild('paginator')
   paginator!: MatPaginator;
 
-  @ViewChild(MatPaginator)
+  @ViewChild('paginatorQueue')
   paginatorQueue!: MatPaginator;
 
   setOpen(value){
@@ -84,6 +84,7 @@ export class VisitorListComponent implements OnInit {
   getVisitorList(){
     this.svc.listVisitor(this.pageSize, this.currentPage).subscribe((resp) => {
         this.dataSource.data = resp.data
+        this.totalRows = resp.total
         setTimeout(() => {
           this.paginator.pageIndex = this.currentPage;
           this.paginator.length = resp.total;
@@ -94,6 +95,7 @@ export class VisitorListComponent implements OnInit {
   getVisitorListQueue(){
     this.svc.getQueueVisitor(this.pageSizeQueue, this.currentPageQueue).subscribe((resp) => {
         this.dataSourceQueue.data = resp.data
+        this.totalRowsQueue = resp.total
         setTimeout(() => {
           this.paginatorQueue.pageIndex = this.currentPage;
           this.paginatorQueue.length = resp.total;
@@ -147,12 +149,12 @@ export class VisitorListComponent implements OnInit {
 
   onSearch(){
     const payload = {
-      pageSizeQueue: this.pageSizeQueue, 
-      currentPageQueue: this.currentPageQueue,
+      pageSize: this.pageSize, 
+      currentPage: this.currentPage,
       ...this.searchForm.value
     }
     this.svc.searchVisitor(payload).subscribe((resp) => {
-      this.dataSourceQueue.data = resp.data
+      this.dataSource.data = resp.data
       setTimeout(() => {
         this.paginator.pageIndex = this.currentPage;
         this.paginator.length = resp.total;
