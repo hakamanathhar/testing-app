@@ -96,7 +96,7 @@ export class VisitorListComponent implements OnInit {
         this.dataSourceQueue.data = resp.data
         this.totalRowsQueue = resp.total
         setTimeout(() => {
-          this.paginatorQueue.pageIndex = this.currentPage;
+          this.paginatorQueue.pageIndex = this.currentPageQueue;
           this.paginatorQueue.length = resp.total;
         });
     })
