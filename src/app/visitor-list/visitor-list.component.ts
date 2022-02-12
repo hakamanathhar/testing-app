@@ -3,8 +3,6 @@ import { GlobalService } from '../global.service';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import {jsPDF} from 'jspdf';
-import html2canvas from 'html2canvas';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -26,6 +24,7 @@ export class VisitorListComponent implements OnInit {
   
   displayedColumns: string[] = [
     '_id',
+    'medical_record',
     'customer_name',
     'pic',
     'region.name',
