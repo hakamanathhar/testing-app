@@ -3,8 +3,6 @@ import { GlobalService } from '../global.service';
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import {jsPDF} from 'jspdf';
-import html2canvas from 'html2canvas';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -26,6 +24,7 @@ export class VisitorListComponent implements OnInit {
   
   displayedColumns: string[] = [
     '_id',
+    'medical_record',
     'customer_name',
     'pic',
     'region.name',
@@ -66,10 +65,10 @@ export class VisitorListComponent implements OnInit {
 
   }
 
-  @ViewChild(MatPaginator)
+  @ViewChild('paginator')
   paginator!: MatPaginator;
 
-  @ViewChild(MatPaginator)
+  @ViewChild('paginatorQueue')
   paginatorQueue!: MatPaginator;
 
   setOpen(value){
@@ -84,6 +83,7 @@ export class VisitorListComponent implements OnInit {
   getVisitorList(){
     this.svc.listVisitor(this.pageSize, this.currentPage).subscribe((resp) => {
         this.dataSource.data = resp.data
+        this.totalRows = resp.total
         setTimeout(() => {
           this.paginator.pageIndex = this.currentPage;
           this.paginator.length = resp.total;
@@ -94,8 +94,9 @@ export class VisitorListComponent implements OnInit {
   getVisitorListQueue(){
     this.svc.getQueueVisitor(this.pageSizeQueue, this.currentPageQueue).subscribe((resp) => {
         this.dataSourceQueue.data = resp.data
+        this.totalRowsQueue = resp.total
         setTimeout(() => {
-          this.paginatorQueue.pageIndex = this.currentPage;
+          this.paginatorQueue.pageIndex = this.currentPageQueue;
           this.paginatorQueue.length = resp.total;
         });
     })
@@ -147,12 +148,12 @@ export class VisitorListComponent implements OnInit {
 
   onSearch(){
     const payload = {
-      pageSizeQueue: this.pageSizeQueue, 
-      currentPageQueue: this.currentPageQueue,
+      pageSize: this.pageSize, 
+      currentPage: this.currentPage,
       ...this.searchForm.value
     }
     this.svc.searchVisitor(payload).subscribe((resp) => {
-      this.dataSourceQueue.data = resp.data
+      this.dataSource.data = resp.data
       setTimeout(() => {
         this.paginator.pageIndex = this.currentPage;
         this.paginator.length = resp.total;

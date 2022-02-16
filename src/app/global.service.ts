@@ -26,11 +26,11 @@ export class GlobalService {
 
 
   getProvinceId(data): Observable<any> {
-    return this.http.get<any>(this.serverUrl + '/master/states-id/'+data);
+    return this.http.get<any>(this.serverUrl + '/master/states-obj-id/'+data);
   }
 
   getCitiesId(data): Observable<any> {
-    return this.http.get<any>(this.serverUrl + '/master/cities-id/'+data);
+    return this.http.get<any>(this.serverUrl + '/master/cities-obj-id/'+data);
   }
 
   submitVisitor(data): Observable<any> {
